@@ -1,0 +1,10 @@
+export 'package:proyecto_infantil/presentation/screens/Splash/splash_screen.dart';
+export 'package:proyecto_infantil/presentation/screens/conversions/currency_exchange_screen.dart';
+export 'package:proyecto_infantil/presentation/screens/conversions/distances_screen.dart';
+export 'package:proyecto_infantil/presentation/screens/figures/area_screen.dart';
+export 'package:proyecto_infantil/presentation/screens/home/home_screen.dart';
+export 'package:proyecto_infantil/presentation/screens/conversions/temperature_converter_screen.dart';
+export 'package:proyecto_infantil/presentation/screens/events/colors_buttons_screen.dart';
+export 'package:proyecto_infantil/presentation/screens/events/press_button_screen.dart';
+export 'package:proyecto_infantil/presentation/screens/figures/volume_screen.dart';
+export 'package:proyecto_infantil/presentation/screens/home/credits_screen.dart';
