@@ -82,6 +82,14 @@ flutter:
     - assets/img/display.png
     - assets/img/children.png
     - assets/img/Patito.png
+    - assets/img/curency_img/fondo.png
+    - assets/img/curency_img/Capymat-convertir.png
+    - assets/img/curency_img/Capymat-moneda.png
+    - assets/img/temperature_img/Fondo.png
+    - assets/img/temperature_img/Capymat-abrigo.png
+    - assets/img/temperature_img/Capymat-Playero.png
+    - assets/img/temperature_img/Capymat-temperatura.png
+
 
     # - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -98,6 +106,12 @@ flutter:
       fonts:
         - asset: 'assets/fonts/Exo2-Regular.ttf'
         - asset: 'assets/fonts/Exo2-SemiBold.ttf'
+
+    - family: Poppins
+      fonts:
+        - asset: 'assets/fonts/Poppins-Regular.ttf'
+        - asset: 'assets/fonts/Poppins-SemiBold.ttf'
+        - asset: 'assets/fonts/Poppins-Bold.ttf'
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

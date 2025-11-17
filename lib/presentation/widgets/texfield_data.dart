@@ -4,21 +4,21 @@ class TexfieldData extends StatelessWidget {
   final TextEditingController controller;
   final String labelText;
   final TextInputType keyboardType;
-  final Function onChanged;
+  final Function? onChanged;
 
-  const TexfieldData({
+  const TexfieldData(
+    this.onChanged, {
     super.key,
     required this.controller,
     required this.labelText,
     required this.keyboardType,
-    required this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      onChanged: (value) => onChanged(),
+      onChanged: (value) => onChanged?.call(value),
       keyboardType: keyboardType,
       decoration: InputDecoration(
         labelText: labelText,
@@ -27,7 +27,7 @@ class TexfieldData extends StatelessWidget {
         filled: true,
       ),
       style: TextStyle(
-        fontSize: 10,
+        fontSize: 20,
         fontFamily: 'Exo2',
         fontWeight: FontWeight.bold,
       ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_infantil/presentation/widgets/texfield_data.dart';
+import 'package:proyecto_infantil/presentation/widgets/view_container.dart';
 
 class VolumeScreen extends StatefulWidget {
   const VolumeScreen({super.key});
@@ -73,21 +75,11 @@ class _VolumeScreenState extends State<VolumeScreen> {
                     Flexible(
                       child: Column(
                         children: [
-                          TextField(
+                          TexfieldData(
                             controller: areaController,
-                            onChanged: (value) => _calcularVolumen(),
+                            labelText: 'Introduce el valor',
                             keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: 'Introduce el valor',
-                              border: OutlineInputBorder(),
-                              fillColor: Colors.white,
-                              filled: true,
-                            ),
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                            ),
+                            (value) => _calcularVolumen(),
                           ),
                         ],
                       ),
@@ -104,21 +96,11 @@ class _VolumeScreenState extends State<VolumeScreen> {
                     Flexible(
                       child: Column(
                         children: [
-                          TextField(
+                          TexfieldData(
                             controller: alturaController,
-                            onChanged: (value) => _calcularVolumen(),
+                            labelText: 'Introduce el valor',
                             keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: 'Introduce el valor',
-                              border: OutlineInputBorder(),
-                              fillColor: Colors.white,
-                              filled: true,
-                            ),
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                            ),
+                            (value) => _calcularVolumen(),
                           ),
                         ],
                       ),
@@ -139,26 +121,7 @@ class _VolumeScreenState extends State<VolumeScreen> {
                       ),
                     ),
                     Flexible(
-                      child: Container(
-                        width: 500,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(width: 1),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            volumen.toStringAsFixed(2),
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                      child: ViewContainer(text: volumen.toStringAsFixed(2)),
                     ),
                   ],
                 ),

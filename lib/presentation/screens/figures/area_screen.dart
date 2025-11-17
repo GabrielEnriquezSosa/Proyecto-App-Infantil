@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_infantil/presentation/widgets/texfield_data.dart';
 
 class AreaGeometricFiguresScreen extends StatefulWidget {
   const AreaGeometricFiguresScreen({super.key});
@@ -144,21 +145,13 @@ class _AreaGeometricFiguresScreenState
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          TextField(
+                          TexfieldData(
+                            () {
+                              (value) => CalcularArea();
+                            },
                             controller: baseController,
-                            onChanged: (value) => CalcularArea(),
+                            labelText: 'Introduce la Base',
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              labelText: 'Introduce la Base',
-                              border: OutlineInputBorder(),
-                              fillColor: Colors.white,
-                              filled: true,
-                            ),
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
                           SizedBox(height: 10),
                           Text(
@@ -169,21 +162,13 @@ class _AreaGeometricFiguresScreenState
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          TextField(
+                          TexfieldData(
                             controller: alturaController,
-                            onChanged: (value) => CalcularArea(),
+                            labelText: 'Introduce la Altura',
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              labelText: 'Introduce la Altura',
-                              border: OutlineInputBorder(),
-                              fillColor: Colors.white,
-                              filled: true,
-                            ),
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                            ),
+                            () {
+                              (value) => CalcularArea();
+                            },
                           ),
                           Text(
                             "Radio",
@@ -193,21 +178,13 @@ class _AreaGeometricFiguresScreenState
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          TextField(
+                          TexfieldData(
                             controller: ladoController,
-                            onChanged: (value) => CalcularArea(),
+                            labelText: 'Introduce el Radio',
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              labelText: 'Introduce el Radio',
-                              border: OutlineInputBorder(),
-                              fillColor: Colors.white,
-                              filled: true,
-                            ),
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                            ),
+                            () {
+                              (value) => CalcularArea();
+                            },
                           ),
                         ],
                       ),

@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_infantil/data/repositories/temperature_repository_impl.dart';
+import 'package:proyecto_infantil/domain/entities/temperature.dart';
+import 'package:proyecto_infantil/domain/usecases/temperature_operation.dart';
+
+import 'package:proyecto_infantil/presentation/widgets/conversions/unit_dropdown.dart';
+import 'package:proyecto_infantil/presentation/widgets/texfield_data.dart';
+import 'package:proyecto_infantil/presentation/widgets/view_container.dart';
 
 class TemperatureConverterScreen extends StatefulWidget {
   const TemperatureConverterScreen({super.key});
@@ -10,137 +17,197 @@ class TemperatureConverterScreen extends StatefulWidget {
 
 class _TemperatureConverterScreenState
     extends State<TemperatureConverterScreen> {
-  double grados = 0;
-  double farenheit = 0;
-  final TextEditingController gradosController = TextEditingController();
-  final TextEditingController farenheitController = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
+  String _result = '';
+  String _fromUnit = 'Celsius';
+  String _toUnit = 'Fahrenheit';
 
-  void convertirTemperatura() {
-    final double grados = double.tryParse(gradosController.text) ?? 0.0;
-    setState(() {
-      farenheit = (grados * 9 / 5) + 32;
-    });
+  final List<String> _units = ['Celsius', 'Fahrenheit', 'Kelvin'];
+
+  void _convert() {
+    final value = double.tryParse(_controller.text);
+    if (value == null) {
+      setState(() {
+        _result = 'Por favor, introduce un número válido';
+      });
+      return;
+    }
+
+    String unit;
+    if (_fromUnit == 'Celsius' && _toUnit == 'Fahrenheit') {
+      unit = 'celsiusF';
+    } else if (_fromUnit == 'Fahrenheit' && _toUnit == 'Celsius') {
+      unit = 'FahrenheitC';
+    } else if (_fromUnit == 'Celsius' && _toUnit == 'Kelvin') {
+      unit = 'CKelvin';
+    } else if (_fromUnit == 'Kelvin' && _toUnit == 'Celsius') {
+      unit = 'KCelsius';
+    } else if (_fromUnit == 'Fahrenheit' && _toUnit == 'Kelvin') {
+      unit = 'FKelvin';
+    } else if (_fromUnit == _toUnit) {
+      _result = value.toStringAsFixed(2);
+      setState(() {});
+      return;
+    } else {
+      unit = 'KtoF';
+    }
+    if (unit == 'KtoF') {
+      final tempInCelsius = value - 273.15;
+      _result = (tempInCelsius * 9 / 5 + 32).toStringAsFixed(2);
+    } else {
+      final temperature = Temperature(value: value, unit: unit);
+      final temperatureOperation = TemperatureOperation(
+        TemperatureRepositoryImpl(),
+      );
+      final result = temperatureOperation(temperature);
+      _result = result.toStringAsFixed(2);
+    }
+
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/img/temperature.png"),
+          image: AssetImage('assets/img/temperature_img/Fondo.png'),
           fit: BoxFit.cover,
-          opacity: 1,
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          toolbarHeight: 100,
           title: const Text(
-            'Conversor de Temperatura',
-            softWrap: true,
-            maxLines: 2,
-            textAlign: TextAlign.center,
+            'Temperatura',
             style: TextStyle(
-              fontSize: 33,
-              fontFamily: 'Exo2',
               fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
             ),
           ),
           centerTitle: true,
-          backgroundColor: Color(0x00000000),
+          backgroundColor: Colors.transparent,
         ),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: SingleChildScrollView(
-            child: Row(
+        backgroundColor: Colors.transparent,
+        body: Column(
+          children: [
+            Expanded(
+              child: Image.asset(
+                'assets/img/temperature_img/Capymat-temperatura.png',
+              ),
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Grados",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Exo2',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextField(
-                        controller: gradosController,
-                        onChanged: (value) => convertirTemperatura(),
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: 'Introduce el valor',
-                          border: OutlineInputBorder(),
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Exo2',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 20),
                 Text(
-                  "Son",
+                  'Conversor',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Exo2',
+                    fontSize: 40,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                    color: Colors.red,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(width: 20),
+                Text(
+                  'de',
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                    color: const Color.fromARGB(255, 203, 120, 90),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+            Text(
+              'Temperatura',
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins',
+                color: Colors.blue,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  UnitDropdown(
+                    value: _fromUnit,
+                    items: _units,
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          _fromUnit = newValue;
+                        });
+                      }
+                    },
+                  ),
+                  const Icon(Icons.swap_horiz),
+                  UnitDropdown(
+                    value: _toUnit,
+                    items: _units,
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          _toUnit = newValue;
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: TexfieldData(
+                      (value) => null,
+                      controller: _controller,
+                      labelText: 'Temperatura',
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+
+                  SizedBox(width: 30),
+                  Flexible(child: ViewContainer(text: _result)),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(onPressed: _convert, child: const Text('Convertir')),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: Transform.flip(
+                    flipX: true,
+                    flipY: false,
+                    child: Image.asset(
+                      'assets/img/temperature_img/Capymat-Playero.png',
+                      width: 150,
+                    ),
                   ),
                 ),
-                SizedBox(width: 10),
-
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Farenheit",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Exo2',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Flexible(
-                        child: Container(
-                          width: 500,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(width: 1),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "$farenheit",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Exo2',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                SizedBox(width: 60),
+                Expanded(
+                  child: Image.asset(
+                    'assets/img/temperature_img/Capymat-abrigo.png',
                   ),
                 ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );
