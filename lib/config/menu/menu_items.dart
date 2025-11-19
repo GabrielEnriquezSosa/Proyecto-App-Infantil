@@ -60,7 +60,7 @@ var appMenuItems = <MenuItem>[
   MenuItem(
     title: 'Volumen',
     subTitle: '',
-    link: '/volume',
+    link: '/volume_geometric_figures',
     icon: Icons.view_column_rounded,
   ),
   MenuItem(

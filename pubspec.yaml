@@ -54,6 +54,15 @@ flutter:
     - assets/img/image_presentation.png
     - assets/img/mundo_magico.png
     - assets/img/ittux_logo.png
+    - assets/img/Fondo-Principal.png
+    - assets/img/Fondo_Principal.png
+    - assets/img/Fondo_Botones.png
+    - assets/img/Fondo_Distancia.png
+    - assets/img/Fondo_BotonesColores.png
+    - assets/img/Creditos.png
+    - assets/img/Gabo.png
+    - assets/img/Adrian.png
+    - assets/img/Mayolo.png
     - assets/img/logo_tecnm.png
     - assets/img/logo_ittux.png
     - assets/img/currency_image.png
@@ -89,7 +98,9 @@ flutter:
     - assets/img/temperature_img/Capymat-abrigo.png
     - assets/img/temperature_img/Capymat-Playero.png
     - assets/img/temperature_img/Capymat-temperatura.png
-
+    - assets/img/figures_img/fondo.png
+    - assets/img/figures_img/Capymat-inge.png
+    - assets/img/figures_img/Capymat-volumen.png
 
     # - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

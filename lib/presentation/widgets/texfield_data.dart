@@ -22,8 +22,8 @@ class TexfieldData extends StatelessWidget {
       keyboardType: keyboardType,
       decoration: InputDecoration(
         labelText: labelText,
-        border: OutlineInputBorder(),
-        fillColor: Colors.white,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        fillColor: Colors.white.withOpacity(0.9),
         filled: true,
       ),
       style: TextStyle(

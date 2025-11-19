@@ -24,7 +24,7 @@ class _DistancesScreenState extends State<DistancesScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/img/distances.png"),
+          image: AssetImage("assets/img/Fondo_Distancia.png"),
           fit: BoxFit.cover,
           opacity: 1,
         ),

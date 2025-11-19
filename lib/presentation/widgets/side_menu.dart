@@ -30,9 +30,7 @@ class _SideMenuState extends State<SideMenu> {
         Padding(
           padding: EdgeInsets.fromLTRB(0, hasNotch ? 10 : 20, 0, 0),
           child: DrawerHeader(
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 213, 159, 9),
-            ),
+            decoration: BoxDecoration(color: Colors.brown[100]),
             child: Align(
               alignment: Alignment.center,
               child: Text(

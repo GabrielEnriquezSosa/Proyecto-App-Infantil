@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:proyecto_infantil/presentation/screens/figures/volume_screen.dart';
 import 'package:proyecto_infantil/presentation/screens/operation/operation_basics_screen.dart';
 import 'package:proyecto_infantil/routes.dart';
 
@@ -26,7 +27,10 @@ final approuter = GoRouter(
       builder: (context, state) => TemperatureConverterScreen(),
     ),
     GoRoute(path: '/distances', builder: (context, state) => DistancesScreen()),
-    GoRoute(path: '/volume', builder: (context, state) => VolumeScreen()),
+    GoRoute(
+      path: '/volume_geometric_figures',
+      builder: (context, state) => const VolumeGeometricFiguresScreen(),
+    ),
     GoRoute(
       path: '/press_button',
       builder: (context, state) => PressButtonScreen(),

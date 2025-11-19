@@ -1,39 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:proyecto_infantil/presentation/providers/area_calculator_provider.dart';
+import 'package:proyecto_infantil/presentation/widgets/shape_painter.dart';
 import 'package:proyecto_infantil/presentation/widgets/texfield_data.dart';
 
-class AreaGeometricFiguresScreen extends StatefulWidget {
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1)}";
+  }
+}
+
+class AreaGeometricFiguresScreen extends ConsumerWidget {
   const AreaGeometricFiguresScreen({super.key});
 
   @override
-  State<AreaGeometricFiguresScreen> createState() =>
-      _AreaGeometricFiguresScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(areaCalculatorProvider);
+    final notifier = ref.read(areaCalculatorProvider.notifier);
 
-class _AreaGeometricFiguresScreenState
-    extends State<AreaGeometricFiguresScreen> {
-  double areaRectangulo = 0;
-  double areaTriangulo = 0;
-  double areaCirculo = 0;
-  final TextEditingController baseController = TextEditingController();
-  final TextEditingController alturaController = TextEditingController();
-  final TextEditingController ladoController = TextEditingController();
-  void CalcularArea() {
-    final double base = double.tryParse(baseController.text) ?? 0.0;
-    final double altura = double.tryParse(alturaController.text) ?? 0.0;
-    final double lado = double.tryParse(ladoController.text) ?? 0.0;
-    setState(() {
-      areaRectangulo = base * altura;
-      areaTriangulo = (base * altura) / 2;
-      areaCirculo = 3.1416 * (lado * lado);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/img/area.png"),
+          image: AssetImage("assets/img/figures_img/fondo.png"),
           fit: BoxFit.cover,
           opacity: 1,
         ),
@@ -41,156 +29,96 @@ class _AreaGeometricFiguresScreenState
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          toolbarHeight: 100,
           title: const Text(
-            'Area de Figuras Geometricas',
-            softWrap: true,
-            maxLines: 2,
+            'Calcular el Área',
             textAlign: TextAlign.center,
-
             style: TextStyle(
-              fontSize: 33,
-              fontFamily: 'Exo2',
+              fontSize: 30,
               fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+              color: Colors.brown,
             ),
           ),
           centerTitle: true,
-          backgroundColor: Color(0x00000000),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Image.asset(
+                  'assets/img/figures_img/Capymat-inge.png',
+                  height: 150,
+                ),
+                const SizedBox(height: 20),
+                _buildFigureSelector(context, ref),
+                const SizedBox(height: 10),
+                Text(
+                  'Calcula el área de un ${state.selectedFigure} con:',
+                  style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.brown,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                _buildProblemDisplay(context, state),
+                const SizedBox(height: 10),
+                Text(
+                  state.formula,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TexfieldData(
+                  (value) {
+                    state.answerController.text = value;
+                  },
+                  controller: state.answerController,
+                  labelText: 'Introduce tu respuesta',
+                  keyboardType: TextInputType.number,
+                ),
+
+                const SizedBox(height: 20),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(color: Colors.red),
-                            width: 150,
-                            height: 100,
-                          ),
-                          Text(
-                            'Area = $areaRectangulo',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                    ElevatedButton(
+                      onPressed: notifier.checkAnswer,
+                      child: const Text(
+                        'Verificar Respuesta',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Exo2',
+                        ),
                       ),
                     ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration: const BoxDecoration(
-                              color: Colors.blue,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          Text(
-                            'Area = $areaCirculo',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                    const SizedBox(height: 10),
+                    TextButton(
+                      onPressed: notifier.generateNewQuestion,
+                      child: const Text(
+                        'Nueva Pregunta',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Exo2',
+                        ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 30),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          CustomPaint(
-                            size: const Size(100, 100),
-                            painter: TrianglePainter(),
-                          ),
-                          Text(
-                            'Area = $areaTriangulo',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            "Base",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TexfieldData(
-                            () {
-                              (value) => CalcularArea();
-                            },
-                            controller: baseController,
-                            labelText: 'Introduce la Base',
-                            keyboardType: TextInputType.number,
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Altura",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TexfieldData(
-                            controller: alturaController,
-                            labelText: 'Introduce la Altura',
-                            keyboardType: TextInputType.number,
-                            () {
-                              (value) => CalcularArea();
-                            },
-                          ),
-                          Text(
-                            "Radio",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TexfieldData(
-                            controller: ladoController,
-                            labelText: 'Introduce el Radio',
-                            keyboardType: TextInputType.number,
-                            () {
-                              (value) => CalcularArea();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                const SizedBox(height: 20),
+                if (state.showResult) _buildResultMessage(context, state),
               ],
             ),
           ),
@@ -198,26 +126,92 @@ class _AreaGeometricFiguresScreenState
       ),
     );
   }
-}
 
-class TrianglePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint =
-        Paint()
-          ..color = Colors.purple
-          ..style = PaintingStyle.fill;
+  Widget _buildFigureSelector(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(areaCalculatorProvider);
+    final notifier = ref.read(areaCalculatorProvider.notifier);
 
-    final path = Path();
-    path.moveTo(size.width / 2, 0);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-    canvas.drawPath(path, paint);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: DropdownButtonFormField<String>(
+        value: state.selectedFigure,
+        items:
+            state.figures.map((String figure) {
+              return DropdownMenuItem<String>(
+                value: figure,
+                child: Text(figure),
+              );
+            }).toList(),
+        onChanged: (newValue) {
+          if (newValue != null) {
+            notifier.setSelectedFigure(newValue);
+          }
+        },
+        decoration: const InputDecoration(
+          labelText: 'Elige una figura',
+          border: InputBorder.none,
+        ),
+      ),
+    );
   }
 
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+  Widget _buildProblemDisplay(BuildContext context, AreaCalculatorState state) {
+    return SizedBox(
+      height: 200,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          CustomPaint(
+            painter: ShapePainter(
+              figure: state.selectedFigure,
+              color: Colors.orange.shade100,
+            ),
+            child: Container(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 10),
+                ...state.params.entries.map((entry) {
+                  return Text(
+                    '${entry.key.capitalize()} = ${entry.value}',
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildResultMessage(BuildContext context, AreaCalculatorState state) {
+    bool isCorrect = state.message.startsWith('Correcto!');
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: isCorrect ? Colors.green.shade100 : Colors.red.shade100,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        state.message,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: isCorrect ? Colors.green.shade800 : Colors.red.shade800,
+        ),
+      ),
+    );
   }
 }

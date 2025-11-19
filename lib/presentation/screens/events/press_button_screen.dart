@@ -12,15 +12,30 @@ class _PressButtonScreenState extends State<PressButtonScreen> {
   String Saludo = "";
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Presiona El Botón"),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(114, 213, 159, 9),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        image: DecorationImage(
+          image: AssetImage("assets/img/Fondo_Botones.png"),
+          fit: BoxFit.fill,
+          opacity: 0.8,
+        ),
       ),
-      body: Container(
-        decoration: BoxDecoration(color: const Color(0xDDD59E09)),
-        child: SingleChildScrollView(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Presiona El Botón",
+            style: TextStyle(
+              fontSize: 30,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+        ),
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
           child: Column(
             children: [
               Row(
@@ -49,12 +64,12 @@ class _PressButtonScreenState extends State<PressButtonScreen> {
                 "Instituto Técnologico de Tuxtepec",
                 style: TextStyle(
                   fontSize: 33,
-                  fontFamily: 'Exo2',
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 20),
               FilledButton(
                 onPressed: () {
                   setState(() {
@@ -63,7 +78,7 @@ class _PressButtonScreenState extends State<PressButtonScreen> {
                         "Hola, Bienvenido a la Universidad Tecnologica de Tuxtepec";
                   });
                 },
-                style: FilledButton.styleFrom(backgroundColor: Colors.green),
+                style: FilledButton.styleFrom(backgroundColor: Colors.blue),
                 clipBehavior: Clip.hardEdge,
                 child: Container(
                   height: 150,
@@ -110,7 +125,7 @@ class _PressButtonScreenState extends State<PressButtonScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 20),
 
               Text(
                 "En esta asignatura otuviste una calificación de:",
@@ -144,6 +159,7 @@ class _PressButtonScreenState extends State<PressButtonScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 10),
               TextButton(
                 onPressed: () {
                   setState(() {
@@ -151,16 +167,24 @@ class _PressButtonScreenState extends State<PressButtonScreen> {
                     Saludo = "";
                   });
                 },
-                child: Text("Borrar"),
-              ),
-
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Image.asset(
-                    "assets/img/logo_ittux.png",
-                    fit: BoxFit.cover,
+                child: Text(
+                  "Borrar",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Image.asset(
+                  "assets/img/logo_ittux.png",
+                  fit: BoxFit.cover,
+                  height: 150,
+                  width: 150,
                 ),
               ),
             ],

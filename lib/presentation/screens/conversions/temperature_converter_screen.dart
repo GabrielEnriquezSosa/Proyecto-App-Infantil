@@ -88,126 +88,131 @@ class _TemperatureConverterScreenState
           backgroundColor: Colors.transparent,
         ),
         backgroundColor: Colors.transparent,
-        body: Column(
-          children: [
-            Expanded(
-              child: Image.asset(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset(
                 'assets/img/temperature_img/Capymat-temperatura.png',
+                width: 200,
+                height: 200,
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Conversor',
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins',
-                    color: Colors.red,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Conversor',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                      color: Colors.red,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(width: 20),
-                Text(
-                  'de',
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins',
-                    color: const Color.fromARGB(255, 203, 120, 90),
+                  const SizedBox(width: 20),
+                  Text(
+                    'de',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                      color: const Color.fromARGB(255, 203, 120, 90),
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            Text(
-              'Temperatura',
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Poppins',
-                color: Colors.blue,
+                ],
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
+              Text(
+                'Temperatura',
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  color: Colors.blue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Row(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    UnitDropdown(
+                      value: _fromUnit,
+                      items: _units,
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            _fromUnit = newValue;
+                          });
+                        }
+                      },
+                    ),
+                    const Icon(Icons.swap_horiz),
+                    UnitDropdown(
+                      value: _toUnit,
+                      items: _units,
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            _toUnit = newValue;
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: TexfieldData(
+                        (value) => null,
+                        controller: _controller,
+                        labelText: 'Temperatura',
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+
+                    SizedBox(width: 30),
+                    Flexible(child: ViewContainer(text: _result)),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _convert,
+                child: const Text('Convertir'),
+              ),
+              const SizedBox(height: 20),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  UnitDropdown(
-                    value: _fromUnit,
-                    items: _units,
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          _fromUnit = newValue;
-                        });
-                      }
-                    },
-                  ),
-                  const Icon(Icons.swap_horiz),
-                  UnitDropdown(
-                    value: _toUnit,
-                    items: _units,
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          _toUnit = newValue;
-                        });
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Row(
-                children: [
-                  Flexible(
-                    child: TexfieldData(
-                      (value) => null,
-                      controller: _controller,
-                      labelText: 'Temperatura',
-                      keyboardType: TextInputType.number,
+                  Expanded(
+                    child: Transform.flip(
+                      flipX: true,
+                      flipY: false,
+                      child: Image.asset(
+                        'assets/img/temperature_img/Capymat-Playero.png',
+                        width: 150,
+                      ),
                     ),
                   ),
-
-                  SizedBox(width: 30),
-                  Flexible(child: ViewContainer(text: _result)),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(onPressed: _convert, child: const Text('Convertir')),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: Transform.flip(
-                    flipX: true,
-                    flipY: false,
+                  SizedBox(width: 60),
+                  Expanded(
                     child: Image.asset(
-                      'assets/img/temperature_img/Capymat-Playero.png',
-                      width: 150,
+                      'assets/img/temperature_img/Capymat-abrigo.png',
                     ),
                   ),
-                ),
-                SizedBox(width: 60),
-                Expanded(
-                  child: Image.asset(
-                    'assets/img/temperature_img/Capymat-abrigo.png',
-                  ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

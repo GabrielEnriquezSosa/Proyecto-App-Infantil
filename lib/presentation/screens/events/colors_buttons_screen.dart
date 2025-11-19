@@ -9,7 +9,7 @@ class ColorsButtonsScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/img/buttons_colors.png"),
+          image: AssetImage("assets/img/Fondo_BotonesColores.png"),
           fit: BoxFit.cover,
           opacity: 1,
         ),
@@ -17,7 +17,6 @@ class ColorsButtonsScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          toolbarHeight: 100,
           title: const Text(
             'Botones de Colores',
             softWrap: true,
@@ -34,18 +33,24 @@ class ColorsButtonsScreen extends StatelessWidget {
           backgroundColor: Color(0x00000000),
         ),
         body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 70),
-
-                ButtonCircle(color: Colors.yellow, colors: 'Amarillo'),
-                SizedBox(height: 30),
-                ButtonCircle(color: Colors.pink, colors: 'Rosado'),
-                SizedBox(height: 30),
-                ButtonCircle(color: Colors.orange, colors: 'Naranja'),
-              ],
-            ),
+          child: Column(
+            children: [
+              SizedBox(height: 30),
+              Text(
+                'Selecciona un color',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 30),
+              ButtonCircle(color: Colors.yellow, colors: 'Amarillo'),
+              SizedBox(height: 30),
+              ButtonCircle(color: Colors.pink, colors: 'Rosado'),
+              SizedBox(height: 30),
+              ButtonCircle(color: Colors.orange, colors: 'Naranja'),
+            ],
           ),
         ),
       ),
