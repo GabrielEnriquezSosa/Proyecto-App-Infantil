@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:proyecto_infantil/presentation/providers/volume_calculator_provider.dart';
 import 'package:proyecto_infantil/presentation/widgets/shape_painter.dart';
-import 'package:proyecto_infantil/presentation/widgets/texfield_data.dart';
 
 extension StringExtension on String {
   String capitalize() {

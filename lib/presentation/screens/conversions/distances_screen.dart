@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:proyecto_infantil/domain/entities/distance.dart';
+import 'package:proyecto_infantil/presentation/providers/distance_provider.dart';
+import 'package:proyecto_infantil/presentation/widgets/view_container.dart';
 
-class DistancesScreen extends StatefulWidget {
+class DistancesScreen extends ConsumerWidget {
   const DistancesScreen({super.key});
 
   @override
-  State<DistancesScreen> createState() => _DistancesScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final distanceState = ref.watch(distanceNotifierProvider);
+    final distanceNotifier = ref.read(distanceNotifierProvider.notifier);
 
-class _DistancesScreenState extends State<DistancesScreen> {
-  double distancia = 0;
-  final TextEditingController metaController = TextEditingController();
-  final TextEditingController salidaController = TextEditingController();
-  void convertirTemperatura() {
-    final double meta = double.tryParse(metaController.text) ?? 0.0;
-    final double salida = double.tryParse(salidaController.text) ?? 0.0;
-    setState(() {
-      distancia = meta - salida;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -32,129 +23,157 @@ class _DistancesScreenState extends State<DistancesScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           title: const Text(
-            'Distancias',
-            textAlign: TextAlign.center,
+            'Conversor de Distancias',
             style: TextStyle(
-              fontSize: 33,
-              fontFamily: 'Exo2',
+              fontSize: 20,
               fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
           ),
           centerTitle: true,
-          backgroundColor: Color(0x00000000),
+          toolbarHeight: 40,
         ),
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "Meta: ",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Exo2',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Flexible(
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: metaController,
-                            onChanged: (value) => convertirTemperatura(),
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              labelText: 'Introduce el valor de la meta',
-                              border: OutlineInputBorder(),
-                              fillColor: Colors.white,
-                              filled: true,
-                            ),
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Exo2',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: Column(
+            children: [
+              Expanded(
+                child: Image.asset(
+                  "assets/img/distance_img/Capymat-Distancia.png",
+                  fit: BoxFit.cover,
                 ),
-                SizedBox(height: 60),
-                Column(
-                  children: [
-                    Text(
-                      "Salida:",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Exo2',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextField(
-                      controller: salidaController,
-                      onChanged: (value) => convertirTemperatura(),
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelText: 'Introduce el valor de salida',
-                        border: OutlineInputBorder(),
-                        fillColor: Colors.white,
-                        filled: true,
-                      ),
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Exo2',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+              ),
+              Text(
+                '¿Qué Distancia quieres convertir?',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  color: Colors.brown,
                 ),
-                SizedBox(height: 300),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(200, 0, 0, 0),
-                  child: Column(
-                    children: [
-                      Text(
-                        "Cuanto falta para llegar? ",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Exo2',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            width: 500,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(width: 1),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "$distancia metros",
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'Exo2',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                textAlign: TextAlign.center,
+              ),
+              Row(
+                children: [
+                  Flexible(
+                    child: _buildDistanceDropdown(
+                      distanceState.from,
+                      distanceNotifier.setFromDistance,
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Text(
+                    'a',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                      color: Colors.brown,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(width: 20),
+                  Flexible(
+                    child: _buildDistanceDropdown(
+                      distanceState.to,
+                      distanceNotifier.setToDistance,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                '¿Cuánto quieres convertir?',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  color: Colors.brown,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              Flexible(
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'Monto',
+                    labelStyle: TextStyle(
+                      fontSize: 30,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange,
+                    ),
+                    border: OutlineInputBorder(),
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  onChanged: (value) {
+                    distanceNotifier.setAmount(double.tryParse(value) ?? 0.0);
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              Expanded(
+                child: GestureDetector(
+                  child: Image.asset(
+                    "assets/img/curency_img/Capymat-convertir.png",
+                    fit: BoxFit.cover,
+                  ),
+                  onTap: () {
+                    distanceNotifier.convert();
+                  },
+                ),
+              ),
+              const SizedBox(height: 10),
+              if (distanceState.isLoading)
+                const CircularProgressIndicator()
+              else
+                Flexible(
+                  child: ViewContainer(
+                    text:
+                        'Resultado: ${distanceState.convertedValue.toStringAsFixed(2)}',
                   ),
                 ),
-              ],
-            ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDistanceDropdown(
+    DistanceType value,
+    void Function(DistanceType) onChanged,
+  ) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(width: 1),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: DropdownButton<DistanceType>(
+            value: value,
+            isExpanded: true,
+            items:
+                DistanceType.values.map((DistanceType distance) {
+                  return DropdownMenuItem<DistanceType>(
+                    value: distance,
+                    child: Text(distance.name.toUpperCase()),
+                  );
+                }).toList(),
+            onChanged: (DistanceType? newValue) {
+              if (newValue != null) {
+                onChanged(newValue);
+              }
+            },
+            underline: Container(),
           ),
         ),
       ),

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 class ViewContainer extends StatelessWidget {
   final String text;
-  const ViewContainer({super.key, required this.text});
+
+  const ViewContainer({
+    super.key,
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +16,7 @@ class ViewContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(width: 1),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: Align(
         alignment: Alignment.center,
