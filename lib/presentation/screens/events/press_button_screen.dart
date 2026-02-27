@@ -115,6 +115,7 @@ class _PressButtonScreenState extends State<PressButtonScreen> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Text(
+                      textAlign: TextAlign.center,
                       Saludo,
                       style: TextStyle(
                         fontSize: 20,

@@ -138,7 +138,7 @@ class AreaGeometricFiguresScreen extends ConsumerWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: DropdownButtonFormField<String>(
-        value: state.selectedFigure,
+        initialValue: state.selectedFigure,
         items:
             state.figures.map((String figure) {
               return DropdownMenuItem<String>(

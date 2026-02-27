@@ -45,7 +45,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorSchemeSeed: colorList[selectedColor],
-      cardTheme: CardTheme(color: colorList[selectedModeCardColor]),
+      cardTheme: CardThemeData(color: colorList[selectedModeCardColor]),
     );
   }
 }

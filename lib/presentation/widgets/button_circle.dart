@@ -26,15 +26,22 @@ class ButtonCircle extends StatelessWidget {
                   fontSize: 30,
                   fontFamily: 'Exo2',
                   fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
-              content: Text(
-                'El Color Seleccionado es: $colors',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Exo2',
-                  fontWeight: FontWeight.bold,
+              content: Text.rich(
+                TextSpan(
+                  text: 'El Color Seleccionado es: ',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Exo2',
+                    fontWeight: FontWeight.bold,
+                  ),
+                  children: [
+                    TextSpan(text: colors, style: TextStyle(color: color)),
+                  ],
                 ),
+                textAlign: TextAlign.center,
               ),
               actions: [
                 TextButton(

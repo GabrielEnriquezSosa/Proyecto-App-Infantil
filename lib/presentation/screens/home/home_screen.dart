@@ -20,6 +20,12 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text("Menu de Principal"),
+          titleTextStyle: TextStyle(
+            fontSize: 24,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.bold,
+            color: const Color.fromARGB(255, 0, 0, 0),
+          ),
           centerTitle: true,
           backgroundColor: Colors.transparent,
         ),
@@ -67,7 +73,22 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 20),
 
             Image.asset("assets/img/ittux_logo.png", fit: BoxFit.cover),
-            SizedBox(height: 100),
+            SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: () {
+                scaffoldKey.currentState?.openEndDrawer();
+              },
+              child: Text("Opciones", style: TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 11, 64, 107),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                textStyle: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            SizedBox(height: 40),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomLeft,
